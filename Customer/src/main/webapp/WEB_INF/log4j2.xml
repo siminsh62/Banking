@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="MyApp" packages="com.rayan.banking" monitorInterval="10">
+    <Appenders>
+        <RollingFile name="privateBanking" fileName="${sys:catalina.home}/logs/privateBanking.log"
+                     filePattern="${sys:catalina.home}/logs/privateBanking/$${date:yyyy-MM}/privateBanking-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %-5p [%c{1}:%L] %m %n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy  interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="7 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2"/>
+        </RollingFile>
+        <!-- I've changed the logging.properties to privateBanking but still in Linux it recreate the catalina.out
+             to control the file size I create a appender and name it catalina.out, the appender will control the file size in Linux eniviroment -->
+        <RollingFile name="catalina" fileName="${sys:catalina.home}/logs/catalina.out"
+                     filePattern="${sys:catalina.home}/logs/catalina/$${date:yyyy-MM}/catalina-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %-5p [%c{1}:%L] %m %n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy  interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="7 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2"/>
+        </RollingFile>
+
+        <RollingFile name="hibernate" fileName="${sys:catalina.home}/logs/hibernate.log"
+                     filePattern="${sys:catalina.home}/logs/hibernate/$${date:yyyy-MM}/hibernate-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %-5p [%c{1}:%L] %m %n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy  interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="7 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2"/>
+        </RollingFile>
+
+        <RollingFile name="exceptions" fileName="${sys:catalina.home}/logs/exceptions.log"
+                     filePattern="${sys:catalina.home}/logs/exceptions/$${date:yyyy-MM}/exceptions-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %-5p [%c{1}:%L] %m %n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="7 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2"/>
+        </RollingFile>
+
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-5p [%c{1}:%L] %m %n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+
+        <logger name="com.rayan.banking.connector.ExceptionHandlerInterceptor" level="error" >
+            <AppenderRef ref="exceptions" />
+            <!--<AppenderRef ref="STDOUT"/>-->
+        </logger>
+
+        <logger name="org.hibernate" level="info" additivity="false" >
+            <AppenderRef ref="hibernate" />
+            <!--<AppenderRef ref="STDOUT"/>-->
+        </logger>
+
+        <!--Hibernate Queries And Bindings loggers-->
+
+        <logger name="org.hibernate.SQL" level="debug" >
+            <appender-ref ref="hibernate" />
+            <!--<appender-ref ref="STDOUT" />-->
+        </logger>
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace">
+            <appender-ref ref="hibernate" />
+            <!--<appender-ref ref="STDOUT" />-->
+        </logger>
+
+        <!--
+        Hibernate Log Categories
+        http://docs.jboss.org/hibernate/core/4.0/manual/en-US/html_single/#configuration-logging
+        -->
+
+        <Root level="trace">
+            <AppenderRef ref="privateBanking"/>
+            <!--<AppenderRef ref="STDOUT"/>-->
+        </Root>
+    </Loggers>
+</Configuration>
+

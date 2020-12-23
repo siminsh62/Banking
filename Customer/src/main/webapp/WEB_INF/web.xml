@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="Private_Banking" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <welcome-file-list>
+        <welcome-file>faces/pages/main/index.xhtml</welcome-file>
+    </welcome-file-list>
+    <session-config>
+        <!-- Session idle timeout in min. -->
+        <session-timeout>30</session-timeout>
+    </session-config>
+    <!-- Spring Support -->
+    <listener>
+        <listener-class>
+            org.springframework.security.web.session.HttpSessionEventPublisher
+        </listener-class>
+    </listener>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.request.RequestContextListener
+        </listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>FacesServlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        <multipart-config>
+            <max-file-size>2097153</max-file-size>
+            <max-request-size>2097153</max-request-size>
+            <file-size-threshold>2097153</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!--<load-on-startup>1</load-on-startup>-->
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FacesServlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>*.form</url-pattern>
+        <url-pattern>*.rmi</url-pattern>
+    </servlet-mapping>
+    <context-param>
+        <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
+        <param-value>/WEB-INF/rayanen.taglib.xml;/WEB-INF/springsecurity.taglib.xml</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.FULL_STATE_SAVING_VIEW_IDS</param-name>
+        <param-value>/pages/privatebanking/privatecustomer/privateCustomerSummery.xhtml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+
+    <!--<context-param>
+        <param-name>spring.profiles.active</param-name>
+        &lt;!&ndash;<param-value>development</param-value>&ndash;&gt;
+        <param-value>test</param-value>
+    </context-param>-->
+
+    <!--CrossScriptingFilter-->
+
+    <!-- Apply Spring Security Filter to all Requests -->
+    <filter>
+        <filter-name>request-encoding</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>request-encoding</filter-name>
+        <url-pattern>/faces/*</url-pattern>
+        <url-pattern>/ws/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <async-supported>true</async-supported>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/faces/*</url-pattern>
+        <url-pattern>/ws/*</url-pattern>
+        <url-pattern>/primepush/*</url-pattern>
+        <url-pattern>/saml/*</url-pattern>
+    </filter-mapping>
+
+    <!--Cache-Control-->
+    <filter>
+        <filter-name>CrossScriptingFilter</filter-name>
+        <filter-class>com.rayan.banking.initiator.CrossScriptingFilter</filter-class>
+        <async-supported>true</async-supported>
+    </filter>
+    <filter-mapping>
+        <filter-name>CrossScriptingFilter</filter-name>
+        <url-pattern>/faces/*</url-pattern>
+        <url-pattern>/primepush/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>CacheControl</filter-name>
+        <filter-class>com.rayan.banking.initiator.CacheControl</filter-class>
+        <async-supported>true</async-supported>
+    </filter>
+    <filter-mapping>
+        <filter-name>CacheControl</filter-name>
+        <url-pattern>/faces/*</url-pattern>
+        <url-pattern>/primepush/*</url-pattern>
+    </filter-mapping>
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Production</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.sun.faces.defaultResourceMaxAge</param-name>
+        <param-value>604800000</param-value>
+    </context-param>
+    <context-param>
+        <param-name>log4jConfiguration</param-name>
+        <param-value>/WEB-INF/log4j2.xml</param-value>
+    </context-param>
+    <!--a<context-param>
+        <param-name>javax.faces.RESOURCE_EXCLUDES</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>-->
+    <!--https://myfaces.apache.org/core20/myfaces-impl/webconfig.html-->
+    <!--End Cache-Control-->
+
+    <servlet>
+        <servlet-name>Push Servlet</servlet-name>
+        <servlet-class>org.primefaces.push.PushServlet</servlet-class>
+        <init-param>
+            <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name>
+            <param-value>org.atmosphere.cache.UUIDBroadcasterCache</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Push Servlet</servlet-name>
+        <url-pattern>/primepush/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>request-encoding-push</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <async-supported>true</async-supported>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>request-encoding-push</filter-name>
+        <url-pattern>/primepush/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>wsdispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wsdispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>#{preferences.theme}</param-value>
+    </context-param>
+
+    <error-page>
+        <location>/faces/pages/common/error.xhtml</location>
+    </error-page>
+    <!--<error-page>-->
+    <!--<error-code>500</error-code>-->
+    <!--<location>/faces/pages/common/error.xhtml</location>-->
+    <!--</error-page>-->
+</web-app>

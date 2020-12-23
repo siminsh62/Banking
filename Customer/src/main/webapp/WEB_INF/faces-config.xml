@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+              version="2.1">
+
+    <application>
+        <resource-bundle>
+            <base-name>resources.configurations.lables.lables</base-name>
+            <var>lab</var>
+        </resource-bundle>
+        <el-resolver>
+            org.springframework.web.jsf.el.SpringBeanFacesELResolver
+        </el-resolver>
+
+
+        <!-- **********Resource Bundles********** -->
+        <message-bundle>Messages</message-bundle>
+
+        <resource-bundle>
+            <base-name>com.rayan.banking.generalLables</base-name>
+            <var>generalLables</var>
+        </resource-bundle>
+        <!-- **********Resource Bundles********** -->
+
+
+        <!-- **********PrimeFaces Dialog********** -->
+        <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+        <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+        <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+        <!-- **********PrimeFaces Dialog********** -->
+
+
+    </application>
+
+    <render-kit>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.PanelGridRenderer</renderer-type>
+            <renderer-class>com.rayanen.faces.component.panelgrid.CustomPanelGridRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.RowEditorRenderer</renderer-type>
+            <renderer-class>com.rayanen.faces.component.roweditor.RowEditorRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.primefaces.extensions.component</component-family>
+            <renderer-type>org.primefaces.extensions.component.TimePickerRenderer</renderer-type>
+            <renderer-class>com.rayanen.faces.component.timePicker.CustomTimePickerRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+
+    <lifecycle>
+        <phase-listener>com.rayan.banking.ui.main.MyPhaseListener</phase-listener>
+    </lifecycle>
+
+    <factory>
+        <exception-handler-factory>
+            com.rayan.banking.exceptionhandling.CustomExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>
+</faces-config>
