@@ -18,10 +18,11 @@ public class ServiceInstanceRestController {
     private DiscoveryClient discoveryClient;
 
     @RequestMapping("/hello")
-    public String hello(){
+    public String hello() {
         return "hello";
-}
-            @RequestMapping("/service-instances/{applicationName}")
+    }
+
+    @RequestMapping("/service-instances/{applicationName}")
     public List<ServiceInstance> serviceInstancesByApplicationName(
             @PathVariable String applicationName) {
         return this.discoveryClient.getInstances(applicationName);

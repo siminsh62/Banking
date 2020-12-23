@@ -1,4 +1,9 @@
 package com.bank.Customer;
 
-public interface CustomerDAO   {
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public interface CustomerDAO  {
+
+
 }

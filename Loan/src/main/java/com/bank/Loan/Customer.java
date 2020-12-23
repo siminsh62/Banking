@@ -1,24 +1,12 @@
-package com.bank.Customer;
+package com.bank.Loan;
 
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.boot.autoconfigure.web.WebProperties;
-
-import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-
-public class Customer  implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class Customer implements Serializable {
     private Long id;
-    @Column
-  //  @GenericGenerator(name = "customerId", strategy = "com.rayan.banking.ccs.utils.CompanyIdGenerator")
-    private String customerId;
-    @Column
+    private String CustomerId;
     private String name;
-    @Column
+
     private String surName;
 
     public Long getId() {
@@ -30,11 +18,11 @@ public class Customer  implements Serializable {
     }
 
     public String getCustomerId() {
-        return customerId;
+        return CustomerId;
     }
 
     public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+        CustomerId = customerId;
     }
 
     public String getName() {
