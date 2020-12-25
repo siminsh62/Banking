@@ -1,5 +1,6 @@
 package com.bank.Customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.boot.autoconfigure.web.WebProperties;
@@ -8,8 +9,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-
-public class Customer  implements Serializable {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Customer{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -20,6 +21,9 @@ public class Customer  implements Serializable {
     private String name;
     @Column
     private String surName;
+
+    public Customer() {
+    }
 
     public Long getId() {
         return id;

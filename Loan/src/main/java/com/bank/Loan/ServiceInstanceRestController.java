@@ -17,10 +17,7 @@ public class ServiceInstanceRestController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    @RequestMapping("/hello")
-    public String hello() {
-        return "hello";
-    }
+
 
     @RequestMapping("/service-instances/{applicationName}")
     public List<ServiceInstance> serviceInstancesByApplicationName(

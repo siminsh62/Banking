@@ -2,12 +2,14 @@ package com.bank.Loan;
 
 import java.io.Serializable;
 
-public class Customer implements Serializable {
+public class Customer  {
     private Long id;
     private String CustomerId;
     private String name;
-
     private String surName;
+
+    public Customer() {
+    }
 
     public Long getId() {
         return id;

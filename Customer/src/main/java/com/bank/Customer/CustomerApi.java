@@ -30,14 +30,17 @@ public class CustomerApi {
         return customerRepository.findById(id);
 
     }
-
+    @RequestMapping("/{id}")
+    public Customer getCustomer(@PathVariable("id") Long id ) {
+        return customerRepository.getOne(id);
+    }
 //    @RequestMapping(value="/getById/{name}",method = RequestMethod.GET)
 //    public Customer getByName(@PathVariable ("name") String name){
 //
 //        return customerRepository.findByC;
 //    }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/getAll")
     public List<Customer> getAll() {
         return customerRepository.findAll();
     }
