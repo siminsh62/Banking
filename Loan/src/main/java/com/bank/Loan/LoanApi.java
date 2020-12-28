@@ -17,8 +17,6 @@ public class LoanApi {
    @Autowired
     private EurekaClient client;
 
-    @Autowired
-    private RestTemplate restTemplate;
 
     @RequestMapping("/hello")
     public String hello() {
@@ -54,6 +52,7 @@ public class LoanApi {
     }
 
     @RequestMapping("/firste")
+   // @Hys(fallbackMethod = "displayDefaultHome")
     public String getSpecificCourse() {
         Customer customer = new Customer();
         //String courseAppURL = "http://localhost:8080/1";
@@ -66,4 +65,8 @@ public class LoanApi {
 
         return("Our first course is "+customer.getCustomerId());
     }
+    public String displayDefaultHome() {
+        return("Welcome to FutureX Course Catalog "+"Please try after some time");
+    }
+
 }
